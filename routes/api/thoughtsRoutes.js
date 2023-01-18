@@ -13,7 +13,7 @@ router.get('/', async (req,res)=>{
 
 router.get('/:id',async(req,res)=>{
     try{
-        const thought = await Thought.findByid(req.params.id);
+        const thought = await Thought.findById(req.params.id);
         res.json(thought)
     } catch(err){
         res.status(500).json(err)
@@ -37,7 +37,7 @@ router.post('/',async(req,res)=>{
 
 router.put('/:id', async (req,res)=>{
     try{
-        await Thought.findOneAndUpdate(req.params.id,req.body)
+        await Thought.findByIdAndUpdate(req.params.id,req.body)
         res.status(200).json({ message: `Thought for ${req.params.id} has been updated!` })
     }catch (err){
         res.status(500).json(err) 
@@ -46,7 +46,7 @@ router.put('/:id', async (req,res)=>{
 
 router.delete('/:id', async (req,res)=>{
     try{
-        await Thought.findOneAndDelete(req.params.id).then(
+        await Thought.findByIdAndDelete(req.params.id).then(
             (deleteThought)=>{
                 return User.findOneAndUpdate(
                     {username:deleteThought.userName},
@@ -73,7 +73,7 @@ router.post('/:thoughtId/reactions', async (req, res) => {
 });
 
 // Delete a reaction
-router.delete('/:thoughtId/reactions', async (req, res) => {
+router.delete('/:thoughtId/reactions/:reactionId', async (req, res) => {
     try {
         await Thought.findByIdAndUpdate(req.params.thoughtId, {
             $pull: { reactions: { reactionId: req.body.reactionId } }
