@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Thought } = require('../../models');
+const { User, Thought, Reaction } = require('../../models');
 
 // get all users
 router.get('/', async(req,res)=>{
@@ -28,11 +28,12 @@ router.get('/:id', async(req,res)=>{
 // create new user
 router.post('/', async(req,res)=>{
     try{
-        const newUser = await User.create(req.body)
-        res.json(newUser);
+        const newUser = await User.create(req.body).then((newUser)=>{
+            res.json(newUser);
+        })
     } catch (err){
         res.status(500).json(err);
-        // console.log(err);
+        console.log(err);
     }
 })
 

@@ -1,31 +1,7 @@
 const { model, Schema, Types } = require('mongoose');
 const moment = require('moment');
+const Reaction = require('./reaction');
 
-// Creating reaction sub document for thought schema
-const reactionSchema = new Schema(
-    {
-        reactionId: {
-            type: Schema.Types.ObjectId,
-            default: () => new Types.ObjectId()
-        },
-        reactionBody: {
-            type: String,
-            required: true,
-            maxLength: 280
-        },
-        username: {
-            type: String,
-            required: true
-        },
-        createdAt: {
-            type: String,
-            default: moment().format('MMMM Do YYYY, h:mm:ss a')
-        }
-    },
-    {
-        _id: false
-    }
-)
 
 // Creating Thought model's schema
 const thoughtSchema = new Schema(
@@ -45,7 +21,7 @@ const thoughtSchema = new Schema(
             required: true
         },
         reactions:[
-            reactionSchema
+            Reaction
         ]
     },
     {
